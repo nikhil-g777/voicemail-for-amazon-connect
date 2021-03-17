@@ -41,7 +41,7 @@ public class ContactVoicemailRepo {
     }
 
     public void createRecord(
-            Long timestamp, String agentId, Boolean shouldTranscribe,
+            Long timestamp, String agentId, String customVoicemailType, String customQueueName, String customAgentEmail, Boolean shouldTranscribe,
             @Nullable String transcribeStatus, Boolean shouldEncrypt, S3UploadInfo uploadInfo
     ) {
         Item item = new Item()
@@ -50,6 +50,9 @@ public class ContactVoicemailRepo {
                 .withString("contactPhoneNumber", contactPhoneNumber)
                 .withString("assigneeId", agentId)
                 .withKeyComponent("readerId", agentId)
+                .withString("customVoicemailType", customVoicemailType)
+                .withString("customQueueName", customQueueName)
+                .withString("customAgentEmail", customAgentEmail)
                 .withBoolean("shouldTranscribe", shouldTranscribe)
                 .withBoolean("shouldEncrypt", shouldEncrypt)
                 .withString("recordingUrl", uploadInfo.getResourceUrl())

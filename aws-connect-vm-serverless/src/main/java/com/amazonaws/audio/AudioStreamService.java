@@ -53,8 +53,8 @@ public class AudioStreamService {
     }
 
     public void processAudioStream(
-            String streamARN, String startFragmentNum, String agentId, String agentName, String contactId,
-            boolean transcribeEnabled, boolean encryptionEnabled, Optional<String> languageCode,
+            String streamARN, String startFragmentNum, String agentId, String agentName, String customVoicemailType, String customQueueName, String customAgentEmail,
+            String contactId, boolean transcribeEnabled, boolean encryptionEnabled, Optional<String> languageCode,
             Optional<Boolean> saveCallRecording) throws Exception {
 
         logger.info(String.format("StreamARN=%s, startFragmentNum=%s, contactId=%s" +
@@ -87,7 +87,7 @@ public class AudioStreamService {
         } finally {
             logger.info(String.format("Closing file and upload raw audio for contactId: %s ... %s Save Call Recording: %b", contactId, saveAudioFilePath, saveCallRecording));
             closeFileAndUploadRawAudio(
-                    kvsInputStream, fileOutputStream, saveAudioFilePath, agentId, contactId,
+                    kvsInputStream, fileOutputStream, saveAudioFilePath, agentId, customVoicemailType, customQueueName, customAgentEmail, contactId,
                     unixTime, saveCallRecording, transcribeEnabled, encryptionEnabled, languageCode.get()
             );
         }
@@ -103,8 +103,8 @@ public class AudioStreamService {
      * @throws IOException
      */
     private void closeFileAndUploadRawAudio(InputStream kvsInputStream, FileOutputStream fileOutputStream,
-                                            Path saveAudioFilePath, String agentId, String contactId,
-                                            long unixTime, Optional<Boolean> saveCallRecording, boolean transcribeEnabled,
+                                            Path saveAudioFilePath, String agentId, String customVoicemailType, String customQueueName, String customAgentEmail,
+                                            String contactId, long unixTime, Optional<Boolean> saveCallRecording, boolean transcribeEnabled,
                                             boolean encryptionEnabled, String languageCode) throws IOException {
 
         kvsInputStream.close();
@@ -121,7 +121,7 @@ public class AudioStreamService {
             String transcriptJobName = contactId + "_" + unixTime;
 
             if (transcribeEnabled) {
-                contactVoicemailRepo.createRecord(unixTime, agentId, true, "IN_PROGRESS", encryptionEnabled, uploadInfo);
+                contactVoicemailRepo.createRecord(unixTime, agentId, customVoicemailType, customQueueName, customAgentEmail, true, "IN_PROGRESS", encryptionEnabled, uploadInfo);
                 transcribeService.transcribeMediaUrl(uploadInfo.getResourceUrl(), transcriptJobName, languageCode);
             } else {
                 contactVoicemailRepo.createRecord(unixTime, agentId, false, null, encryptionEnabled, uploadInfo);

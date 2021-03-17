@@ -33,6 +33,9 @@ public class ContactFlowAttributes {
     public ContactFlowAttributes(JSONObject jsonObject) {
         this.agentId = jsonObject.getString("agentId");
         this.agentName = jsonObject.getString("agentName");
+        this.customVoicemailType = jsonObject.getString("customVoicemailType");
+        this.customQueueName = jsonObject.getString("customQueueName");
+        this.customAgentEmail = jsonObject.getString("customAgentEmail");
         this.extensionNumber = jsonObject.getString("extensionNumber");
         this.transferMessage = jsonObject.getString("transferMessage");
         this.encryptVoicemail = Boolean.parseBoolean(jsonObject.getString("encryptVoicemail"));
@@ -48,6 +51,16 @@ public class ContactFlowAttributes {
 
     public String getAgentId() {
         return agentId;
+    }
+
+    public String getCustomVoicemailType() {
+        return customVoicemailType;
+    }
+    public String getCustomQueueName() {
+        return customQueueName;
+    }
+    public String getCustomAgentEmail() {
+        return customAgentEmail;
     }
 
     public String getAgentName() {
