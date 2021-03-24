@@ -66,7 +66,10 @@ class KvsService {
                 languageCode: event.Details.ContactData.Attributes.languageCode === "es-US" ? "es-US" : "en-US",
                 agentId: event.Details.ContactData.Attributes.agentId,
                 agentExtensionNumber: event.Details.ContactData.Attributes.extensionNumber,
-                agentName: event.Details.ContactData.Attributes.agentName
+                agentName: event.Details.ContactData.Attributes.agentName,
+                customVoicemailType: event.Details.ContactData.Attributes.customVoicemailType,
+                customQueueName: event.Details.ContactData.Attributes.customQueueName,
+                customAgentEmail: event.Details.ContactData.Attributes.customAgentEmail
             };
         }
         return payload;

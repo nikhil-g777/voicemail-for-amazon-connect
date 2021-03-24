@@ -124,7 +124,7 @@ public class AudioStreamService {
                 contactVoicemailRepo.createRecord(unixTime, agentId, customVoicemailType, customQueueName, customAgentEmail, true, "IN_PROGRESS", encryptionEnabled, uploadInfo);
                 transcribeService.transcribeMediaUrl(uploadInfo.getResourceUrl(), transcriptJobName, languageCode);
             } else {
-                contactVoicemailRepo.createRecord(unixTime, agentId, false, null, encryptionEnabled, uploadInfo);
+                contactVoicemailRepo.createRecord(unixTime, agentId, customVoicemailType, customQueueName, customAgentEmail, false, null, encryptionEnabled, uploadInfo);
             }
         } else {
             logger.info("Skipping upload to S3.  saveCallRecording was disabled or audio file has 0 bytes: " + saveAudioFilePath);
